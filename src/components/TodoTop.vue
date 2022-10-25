@@ -29,6 +29,13 @@ export default {
   background-color: #6C77A7;
   display: table-cell;
   vertical-align: middle;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  color: #FFFFFF;
+
 
   &__logo{
     position: relative;
@@ -53,12 +60,7 @@ export default {
 
   &__date{
 
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 19px;
-    color: #FFFFFF;
+
 
     height: 20px;
     position: relative;
