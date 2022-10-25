@@ -1,32 +1,67 @@
+<script setup>
+  const WEEKDAY = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+  var date = new Date();
+  var today_str = date.getMonth() + 1 + "/" + date.getDate() +' ' + WEEKDAY[date.getDay()];;
+</script>
+
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+    <div class="topbar">
+        <img class="topbar__logo" src="images/ic_topbar_menu.png">
+        <span class="topbar__title">Jimmy-ToDo</span>
+        <span class="topbar__date">{{ today_str }}</span>
+    </div>
   </div>
 </template>
 
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+  .topbar{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 48px;
+    left: 0px;
+    background-color: #6C77A7;
+    display: table-cell;
+    vertical-align: middle;
 
-nav {
-  padding: 30px;
+      &__logo{
+        position: relative;
+        top: 12px;
+        margin-left: 15px;
+      }
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+      &__title{
+        width: 92px;
+        height: 28px;
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 28px;
+        color: #FFFFFF;
+        position: relative;
+        top: 8px;
+        margin-left: 13px;
+      }
 
-    &.router-link-exact-active {
-      color: #42b983;
+
+      &__date{
+
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+        color: #FFFFFF;
+
+        height: 20px;
+        position: relative;
+        float: right;
+        margin-right: 16px;
+
+        top: 14px;
     }
   }
-}
 </style>
