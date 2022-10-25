@@ -1,11 +1,18 @@
 <template>
-$END$
+  <div class="todo_name">
+    <todo-top />
+  </div>
+
 </template>
 
 <script>
+import TodoTop from '@/components/TodoTop.vue';
+
 export default {
-name: "NameView"
-}
+  components: {
+    TodoTop
+  },
+};
 </script>
 
 <style scoped>
