@@ -7,7 +7,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: '/',
-    name: 'todo_name',
+    name: 'name',
     component: NameView,
   },
   {
