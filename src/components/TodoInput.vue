@@ -46,10 +46,11 @@ export default {
     },
     inputFocusOutListener() {
       const textbox = this.$refs.textbox;
-      if (textbox.value.length == 0) {
-        textbox.style.borderBottomColor = "#CCCCCC"
-        textbox.placeholder = "input your name"
-      }
+      textbox.style.borderBottomColor = "#CCCCCC"
+      textbox.placeholder = "input your name"
+      textbox.value = "";
+      this.$refs.inputClearButton.style.display = "none";
+      this.$refs.sendButtonImage.src = "images/ic_vector_grey.png"
     },
     inputChangeListener() {
       const textbox = this.$refs.textbox;
