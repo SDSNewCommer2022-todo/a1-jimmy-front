@@ -1,11 +1,10 @@
 <template>
-  <div id="task">
+  <div class="todo">
     <todo-top/>
-    <br><br><br><br>
-    {{$store.state.userName}}
+    <div class="todo__greet">Good afternoon, {{$store.state.userName}}.</div>
+
 
   </div>
-
 </template>
 
 <script>
@@ -21,6 +20,17 @@ export default {
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  .todo{
+    &__greet{
+      font-family: 'Roboto';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 36px;
 
+      margin-top: 72px;
+      margin-left: 60px;
+    }
+  }
 </style>
