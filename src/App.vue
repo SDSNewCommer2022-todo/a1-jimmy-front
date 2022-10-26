@@ -1,15 +1,6 @@
 <template>
-  <div id="app">
-    <name-view />
-  </div>
+  <router-view></router-view>
 </template>
 
 <script>
-import NameView from '@/views/NameView.vue';
-
-export default {
-  components: {
-    NameView,
-  },
-};
 </script>

@@ -10,22 +10,25 @@
           Welcome Newbie!!<br>
           MyTodo makes it easy to stay organized and manage your life.
       </div>
-      <div class="todo-content__question">
-        What is your name?
-      </div>
-      <todo-input class="todo-input"/>
+      <div class="todo-content__question">What is your name? </div>
+      <TodoInput
+        class="todo-input"
+        :is-name-page="true"
+
+       />
     </div>
   </div>
-
 </template>
 
 <script>
 import TodoTop from '@/components/TodoTop.vue';
 import TodoInput from '@/components/TodoInput';
+
 export default {
   components: {
     TodoTop, TodoInput
   },
+
 };
 </script>
 
