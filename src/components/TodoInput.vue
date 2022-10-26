@@ -13,7 +13,8 @@
           isNamePage ? 'border-bottom' : 'border-all']"
       @input ="inputChangeListener"
       @focus="inputFocusListener"
-      @focusout="inputFocusOutListener">
+      @focusout="inputFocusOutListener"
+      @keyup.enter="sendBtnClickListener">
     <button
       ref="inputClearButton"
       class="todo-input__clear"
@@ -23,7 +24,7 @@
     <button
       type="button"
       class="todo-input__send"
-      @click=sendBtnClickListener>
+      @click="sendBtnClickListener">
       <img ref="sendButtonImage" class="todo-input__send__image" src="images/ic_vector_grey.png" alt="">
     </button>
   </div>
@@ -31,11 +32,18 @@
 </template>
 
 <script>
+import {mapState} from 'vuex';
+
 export default {
   name: 'TodoInput',
   props:{
     isNamePage:{
       state: false
+    }
+  },
+  data(){
+    return {
+      input_name: ""
     }
   },
   methods: {
@@ -63,6 +71,7 @@ export default {
         this.$refs.sendButtonImage.src = "images/ic_vector_blue.png"
         textbox.style.borderBottomColor = "#2A82F0"
       }
+      this.input_name = textbox.value;
     },
     clearBtnClickListener() {
       this.$refs.textbox.value = "";
@@ -72,8 +81,18 @@ export default {
       this.$refs.textbox.placeholder = "input your name"
     },
     sendBtnClickListener() {
+      if(this.isNamePage) {
+        let input_name = this.input_name;
+        this.$store.commit('changeUserName', input_name);
+        this.$router.push('/todo')
+      }
 
     }
+  },
+  computed: {
+    ...mapState({
+      userName: state => state.userName
+    })
   }
 };
 

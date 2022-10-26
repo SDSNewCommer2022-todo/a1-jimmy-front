@@ -27,8 +27,7 @@ import TodoInput from '@/components/TodoInput';
 export default {
   components: {
     TodoTop, TodoInput
-  },
-
+  }
 };
 </script>
 

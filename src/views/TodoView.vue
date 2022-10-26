@@ -1,6 +1,9 @@
 <template>
   <div id="task">
     <todo-top/>
+    <br><br><br><br>
+    {{$store.state.userName}}
+
   </div>
 
 </template>
@@ -12,8 +15,10 @@ import TodoTop from '@/components/TodoTop.vue';
 export default {
   components: {
     TodoTop
-  },
+  }
 };
+
+
 </script>
 
 <style scoped>
