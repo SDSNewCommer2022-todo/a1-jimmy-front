@@ -4,7 +4,9 @@
 <template>
   <div class="todo-input" >
     <input
-      ref="textbox" type="text"
+      ref="textbox"
+      autofocus
+      type="text"
       :placeholder="isNamePage ? 'input your name' : 'Enter your task'"
       :class="[
           'todo-input__textbox',
@@ -117,6 +119,7 @@ export default {
   .border-bottom{
     border: 0px;
     border-bottom: 1px solid #CCCCCC;
+    padding-bottom: 6.5px;
   }
   .border-all {
     border: 1px solid #CCCCCC;
