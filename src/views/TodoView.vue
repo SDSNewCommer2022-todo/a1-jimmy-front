@@ -56,7 +56,7 @@ export default {
     margin-top: 24px;
     margin-left: 60px;
   }
-s
+
   &__task-count {
     margin-top: 16px;
     margin-left: 60px;
