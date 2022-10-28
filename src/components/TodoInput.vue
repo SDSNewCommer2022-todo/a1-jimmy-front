@@ -7,6 +7,7 @@
       ref="textbox"
       autofocus
       type="text"
+      :value="input_text"
       :placeholder="isNamePage ? PH_NAME : PH_TASK"
       :class="['todo-input__textbox', isNamePage ? 'border-bottom' : 'border-all']"
       @input="inputChangeListener"
@@ -64,12 +65,9 @@ export default {
   },
   methods : {
     inputBoxNormalState() {
-      this.$refs.inputClearButton.style.display = "none";
       this.$refs.sendButtonImage.src = IC_VECTOR_GREY;
       this.$refs.textbox.style.borderBottomColor = C.INPUTBOX_COLOR.DEFAULT;
-      this.$refs.textbox.value = "";
       this.$refs.sendButton.style.cursor = "";
-      this.input_text = "";
     },
     inputBoxFocusState() {
       this.$refs.inputClearButton.style.display = "none";
@@ -83,10 +81,15 @@ export default {
       this.$refs.textbox.style.borderBottomColor = C.INPUTBOX_COLOR.ONFOCUS
     },
     inputFocusListener() {
-      this.inputBoxFocusState();
+      if(this.input_text.length > 0){
+        this.inputBoxTextingState();
+      }else{
+        this.inputBoxFocusState();
+      }
     },
     inputFocusOutListener() {
       this.inputBoxNormalState();
+
     },
     inputChangeListener() {
       const text_box = this.$refs.textbox;
@@ -99,6 +102,8 @@ export default {
     },
     clearBtnClickListener() {
       this.inputBoxNormalState();
+      this.input_text = "";
+      this.$refs.inputClearButton.style.display = "none";
     },
     sendBtnClickListener() {
       if(this.input_text.length === 0) {
