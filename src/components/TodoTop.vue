@@ -15,7 +15,7 @@ var today_str = date.getMonth() + 1 + "/" + date.getDate() +' ' + WEEKDAY[date.g
 
 <script>
 export default {
-  name: 'TodoTop',
+  name : 'TodoTop',
 }
 </script>
 

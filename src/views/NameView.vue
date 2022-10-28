@@ -25,7 +25,7 @@ import TodoTop from '@/components/TodoTop.vue';
 import TodoInput from '@/components/TodoInput';
 
 export default {
-  components: {
+  components : {
     TodoTop, TodoInput
   }
 };

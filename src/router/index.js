@@ -7,21 +7,21 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'name',
-    component: NameView,
+    path      : '/',
+    name      : 'name',
+    component : NameView,
   },
   {
-    path: '/todo',
-    name: 'todo',
+    path : '/todo',
+    name : 'todo',
 
-    component: TodoView
+    component : TodoView
   },
 ];
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+  mode : 'history',
+  base : process.env.BASE_URL,
   routes,
 });
 

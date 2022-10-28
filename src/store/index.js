@@ -4,23 +4,23 @@ import PersistedState from 'vuex-persistedstate'
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-    userName: "default"
+  state : {
+    userName : "default"
   },
-  getters: {
+  getters : {
   },
-  mutations: {
+  mutations : {
     changeUserName(state, user_name){
       state.userName = user_name;
     }
   },
-  actions: {
+  actions : {
   },
-  modules: {
+  modules : {
 
   },
-  plugins: [PersistedState({
-    whiteList: ["userName"]
+  plugins : [PersistedState({
+    whiteList : ["userName"]
   })]
 
 });
