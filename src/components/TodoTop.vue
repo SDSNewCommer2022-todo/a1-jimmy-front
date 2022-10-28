@@ -27,53 +27,43 @@ export default {
 </script>
 
 <style lang="scss">
+
 .topbar{
-  position: fixed;
-  top: 0;
-  width: 100%;
+  width: 100vw;
   height: 48px;
-  left: 0px;
   background-color: #6C77A7;
-  display: table-cell;
-  vertical-align: middle;
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
-  line-height: 19px;
   color: #FFFFFF;
 
 
   &__logo{
     position: relative;
-    top: 12px;
     margin-left: 15px;
+    margin-top: 12px;
+    width: 24px;
+    height: 24px;
   }
 
   &__title{
+    position: relative;
     width: 92px;
-    height: 28px;
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 700;
     font-size: 24px;
     line-height: 28px;
     color: #FFFFFF;
-    position: relative;
-    top: 8px;
     margin-left: 13px;
+    top: -3px;
+
   }
 
 
   &__date{
-
-
-
     height: 20px;
     position: relative;
     float: right;
     margin-right: 16px;
-
     top: 14px;
   }
 }

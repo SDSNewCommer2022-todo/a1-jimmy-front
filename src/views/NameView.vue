@@ -33,7 +33,7 @@ export default {
 
 <style scoped lang="scss">
   .todo-content{
-    margin-top: 108px;
+    margin-top: 60px;
     margin-left: 120px;
     font-family: 'Roboto';
     font-style: normal;

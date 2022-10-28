@@ -122,7 +122,6 @@ export default {
 
 <style scoped lang="scss">
   .todo-input{
-
     &__textbox{
       width: 54%;
       outline: none;
