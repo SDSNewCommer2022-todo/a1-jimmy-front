@@ -6,7 +6,7 @@ var today_str = date.getMonth() + 1 + "/" + date.getDate() +' ' + WEEKDAY[date.g
 
 <template>
   <div class="topbar">
-    <img class="topbar__logo" src="images/ic_topbar_menu.png">
+    <img class="topbar__logo" :src="TOPBAR_LOGO_IMAGE">
     <span class="topbar__title">Jimmy-ToDo</span>
     <span class="topbar__date">{{ today_str }}</span>
   </div>
@@ -14,8 +14,15 @@ var today_str = date.getMonth() + 1 + "/" + date.getDate() +' ' + WEEKDAY[date.g
 
 
 <script>
+import IC_TOPBAR_MENU from '@/assets/ic_topbar_menu.png'
+
 export default {
   name : 'TodoTop',
+  data(){
+    return {
+      TOPBAR_LOGO_IMAGE : IC_TOPBAR_MENU
+    }
+  }
 }
 </script>
 
