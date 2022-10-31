@@ -9,7 +9,8 @@
       type="text"
       :value="input_text"
       :placeholder="isNamePage ? PH_NAME : PH_TASK"
-      :class="['todo-input__textbox', isNamePage ? 'border-bottom' : 'border-all']"
+      :class="[isNamePage ? 'todo-input__textbox' : 'todo-input__textbox-long',
+         isNamePage ? 'border-bottom' : 'border-all']"
       @input="inputChangeListener"
       @focus="inputFocusListener"
       @focusout="inputFocusOutListener"
@@ -66,19 +67,28 @@ export default {
   methods : {
     inputBoxNormalState() {
       this.$refs.sendButtonImage.src = IC_VECTOR_GREY;
-      this.$refs.textbox.style.borderBottomColor = C.INPUTBOX_COLOR.DEFAULT;
       this.$refs.sendButton.style.cursor = "";
+      if(this.isNamePage)
+        this.$refs.textbox.style.borderBottomColor = C.INPUTBOX_COLOR.DEFAULT;
+      else
+        this.$refs.textbox.style.borderColor = C.INPUTBOX_COLOR.DEFAULT;
     },
     inputBoxFocusState() {
       this.$refs.inputClearButton.style.display = "none";
       this.$refs.sendButtonImage.src = IC_VECTOR_GREY;
-      this.$refs.textbox.style.borderBottomColor = C.INPUTBOX_COLOR.ONFOCUS;
+      if(this.isNamePage)
+        this.$refs.textbox.style.borderBottomColor = C.INPUTBOX_COLOR.ONFOCUS
+      else
+        this.$refs.textbox.style.borderColor = C.INPUTBOX_COLOR.ONFOCUS
     },
     inputBoxTextingState(){
       this.$refs.sendButton.style.cursor = "pointer";
       this.$refs.inputClearButton.style.display = "inline-block";
       this.$refs.sendButtonImage.src = IC_VECTOR_BLUE
-      this.$refs.textbox.style.borderBottomColor = C.INPUTBOX_COLOR.ONFOCUS
+      if(this.isNamePage)
+        this.$refs.textbox.style.borderBottomColor = C.INPUTBOX_COLOR.ONFOCUS
+      else
+        this.$refs.textbox.style.borderColor = C.INPUTBOX_COLOR.ONFOCUS
     },
     inputFocusListener() {
       if(this.input_text.length > 0){
@@ -109,11 +119,7 @@ export default {
       if(this.input_text.length === 0) {
         return;
       }
-      if(this.isNamePage) {
-        let input_name = this.input_text;
-        this.$store.commit('changeUserName', input_name);
-        this.$router.push('/todo')
-      }
+      this.$emit('sendBtnClickEvent', this.input_text)
     }
   },
 };
@@ -127,14 +133,18 @@ export default {
       outline: none;
       font-size: 16px;
     }
-
+    &__textbox-long{
+      width: 90%;
+      outline: none;
+      font-size: 16px;
+    }
     &__clear{
       cursor: pointer;
       position: absolute;
       display: none;
       border: none;
       background: transparent;
-      margin-top: 8px;
+      margin-top: 10px;
       margin-left: -33px;
 
       &__image{
@@ -144,14 +154,15 @@ export default {
     }
 
     &__send{
-      padding-top: 8px;
+      position: absolute;
+      margin-top: 12px;
       border-left: 11px;
       border: none;
       background: transparent;
 
       &__image{
         width: 16px;
-        height: 17px;
+        height: 16px;
       }
     }
   }
