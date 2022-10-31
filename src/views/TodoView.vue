@@ -15,7 +15,8 @@
      </div>
     </div>
     <div class="todo__lower">
-      <div class="todo__lower__list">
+      <div class="todo__lower__dropdown">
+        <todo-drop-down :dropdown-contents="dropbox_contents"/>
       </div>
     </div>
   </div>
@@ -25,10 +26,13 @@
 import C from "../const/TodoTaskViewConst"
 import TodoTop from '@/components/TodoTop.vue';
 import TodoInput from '@/components/TodoInput';
+import TodoDropDown from '@/components/TodoDropDown';
+
 import axios from 'axios';
 
 export default {
   components : {
+    TodoDropDown,
     TodoInput,
     TodoTop
   },
@@ -36,7 +40,9 @@ export default {
     return {
       greeting              : '',
       total_task_count      : 0,
-      registered_task_count : 0
+      registered_task_count : 0,
+      task_description      : '',
+      dropbox_contents      : ['Oldest', 'Latest']
     }
   },
   mounted() {
@@ -61,8 +67,8 @@ export default {
       axios.post('http://localhost:8080/task/get-all-task',{
         name : name
       }).then((res)=>{
-        this.total_task_count = res.data.filter(el => el.status != "DELETED").length
-        this.registered_task_count = res.data.filter(el => el.status == "REGISTERED").length
+        this.total_task_count = res.data.filter((el) => el.status != "DELETED").length
+        this.registered_task_count = res.data.filter((el) => el.status == "REGISTERED").length
       })
     },
     newTaskSaveRequest(input_text){
@@ -71,7 +77,7 @@ export default {
         owner   : owner,
         content : input_text
       }).then(()=>{
-        window.location.reload();
+        this.getTasksByName();
       })
     },
 
@@ -81,12 +87,11 @@ export default {
 
 <style scoped lang="scss">
 .todo {
-  height: 100%;
   font-family: 'Roboto';
   font-style: normal;
+  height: 100%;
   &__upper {
     display: inline-block;
-    height: 50%;
     &__greet {
       font-weight: 400;
       font-size: 24px;
@@ -104,19 +109,11 @@ export default {
       height: 36px;
       color: #2C3E50;
 
-      &__head {
-
-      }
-
       &__content {
         height: 72px;
         font-weight: 700;
         font-size: 48px;
         line-height: 72px;
-      }
-
-      &__tail {
-
       }
 
       &__input {
@@ -129,10 +126,13 @@ export default {
     display: inline-block;
     margin-top: 40px;
     width: 100%;
-
+    height: 50%;
     background-color: #F2F2F2;
 
-
+    &__dropdown{
+      margin-left: 60px;
+      margin-top: 24px;
+    }
     &__list {
 
     }

@@ -134,7 +134,7 @@ export default {
       font-size: 16px;
     }
     &__textbox-long{
-      width: 90%;
+      width: 90%  ;
       outline: none;
       font-size: 16px;
     }
