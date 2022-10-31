@@ -14,10 +14,17 @@
       />
      </div>
     </div>
-    <div class="todo__lower">
-      <div class="todo__lower__dropdown">
-        <todo-drop-down :dropdown-contents="dropbox_contents"/>
+    <div class="todo__lower" >
+      <div
+        class="todo__lower__no-task"
+        :class="total_task_count === 0 ? '' : 'display-none'"
+      >There is no task.</div>
+      <div :class="total_task_count !== 0 ? '' : 'display-none'">
+        <div class="todo__lower__dropdown">
+          <todo-drop-down :dropdown-contents="dropbox_contents"/>
+        </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -128,7 +135,22 @@ export default {
     width: 100%;
     height: 50%;
     background-color: #F2F2F2;
-
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-grow: 1;
+    &__no-task {
+      font-weight: 400;
+      font-size: 16px;
+      color: #000000;
+      opacity: 0.6;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-grow: 1;
+      background-color: #f2f2f2;
+    }
     &__dropdown{
       margin-left: 60px;
       margin-top: 24px;
@@ -138,5 +160,8 @@ export default {
     }
   }
 
+  .display-none {
+    display: none;
+  }
 }
 </style>
