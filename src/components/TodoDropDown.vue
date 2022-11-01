@@ -70,7 +70,7 @@ export default {
   font-weight: 400;
   font-size: 16px;
   line-height: 18px;
-
+  position: absolute;
   &__menu {
     background: #ffffff;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
