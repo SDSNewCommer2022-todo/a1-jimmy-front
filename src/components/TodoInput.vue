@@ -52,11 +52,14 @@ export default {
   props : {
     isNamePage : {
       state : false
+    },
+    value : {
+      state : false
     }
   },
   data(){
     return {
-      input_text          : "",
+      input_text          : this.value,
       PH_NAME             : C.PLACEHOLDER.NAME_PAGE,
       PH_TASK             : C.PLACEHOLDER.TASK_PAGE,
       DELETE_BUTTON_IMAGE : IC_DELETE,
