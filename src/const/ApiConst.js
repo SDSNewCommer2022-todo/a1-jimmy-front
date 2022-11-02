@@ -13,6 +13,7 @@ module.exports = {
     TASK_CONTENT : '/task/content'
   },
   DELETE : {
-    TASK : '/task/'
+    TASK     : '/task/',
+    TASK_ALL : '/task/all/'
   }
 }
