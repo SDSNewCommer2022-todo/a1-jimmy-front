@@ -18,7 +18,7 @@
           v-for="(content, index) in dropdownContents"
           :key="index"
           :class="selected==content ? 'todo-dropdown__menu__contents__box-selected' : 'todo-dropdown__menu__contents__box' "
-          @click="selected = content"
+          @click="dropDownChangeContent(content)"
         >
           {{ content }}
         </div>
@@ -58,6 +58,10 @@ export default {
   methods : {
     onClickOutside(){
       this.isContentView = false;
+    },
+    dropDownChangeContent(content){
+      this.selected = content;
+      this.$emit("dropDownChangeContent",this.selected);
     }
   }
 };

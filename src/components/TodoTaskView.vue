@@ -6,7 +6,10 @@
     <div :class="total_task_count !== 0 ? '' : 'display-none'">
       <div class="task-view__top">
         <div class="task-view__top_dropdown">
-          <todo-drop-down :dropdown-contents="dropbox_contents" />
+          <todo-drop-down
+            :dropdown-contents="dropbox_contents"
+            @dropDownChangeContent="sortTasksOrderByDate"
+          />
         </div>
         <div class="task-view__top__clear">
           <img
@@ -23,7 +26,7 @@
           v-for="(task, index) in tasks"
           :key="index"
           :task="task"
-          @refresh='$emit("refresh")'
+          @refresh="$emit('refresh')"
         />
       </div>
     </div>
@@ -44,7 +47,6 @@ export default {
     TodoDropDown,
     TodoTaskViewComp
   },
-
   props : {
     tasks : {
       state : false
@@ -62,6 +64,9 @@ export default {
       IC_TASK_CLEAR_BTN_HOVER,
     }
   },
+  mounted() {
+    this.sortTasksOrderByDate("Oldest");
+  },
   methods : {
     deleteAllTaskRequest(){
       let name = this.$store.state.userName;
@@ -70,6 +75,20 @@ export default {
         .then(()=>{
           this.$emit("refresh");
         })
+    },
+    sortTasksOrderByDate(order){
+      if(order === "Oldest") {
+        // eslint-disable-next-line vue/no-mutating-props
+        this.tasks.sort((t1, t2) => {
+          return new Date(t1.created_time) - new Date(t2.created_time)
+        });
+      }
+      else{
+        // eslint-disable-next-line vue/no-mutating-props
+        this.tasks.sort((t1, t2) => {
+          return new Date(t2.created_time) - new Date(t1.created_time)
+        });
+      }
     }
   }
 };
@@ -80,7 +99,7 @@ export default {
   display: inline-block;
   margin-top: 40px;
   min-height: calc(100% - 356px);
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -106,7 +125,7 @@ export default {
     margin-left: 60px;
     margin-right: 60px;
 
-    &__dropdown{
+    &__dropdown {
       display: inline-block;
       height: 60px;
     }
@@ -114,18 +133,15 @@ export default {
       display: inline-block;
       float: right;
     }
-
   }
 
-  &__list{
+  &__list {
     margin-top: 24px;
     margin-left: 60px;
     margin-right: 60px;
     margin-bottom: 24px;
   }
-
 }
-
 
 .display-none {
   display: none;
