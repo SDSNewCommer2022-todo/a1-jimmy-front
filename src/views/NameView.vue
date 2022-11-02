@@ -14,7 +14,7 @@
       <TodoInput
         class="todo-input"
         :is-name-page="true"
-
+        @sendBtnClickEvent="callTodoViewByName"
        />
     </div>
   </div>
@@ -27,6 +27,12 @@ import TodoInput from '@/components/TodoInput';
 export default {
   components : {
     TodoTop, TodoInput
+  },
+  methods : {
+    callTodoViewByName(input_text) {
+      this.$store.commit('changeUserName', input_text);
+      this.$router.push('/todo')
+    }
   }
 };
 </script>
