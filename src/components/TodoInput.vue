@@ -119,7 +119,8 @@ export default {
       if(this.input_text.length === 0) {
         return;
       }
-      this.$emit('sendBtnClickEvent', this.input_text)
+      this.$emit('sendBtnClickEvent', this.input_text);
+      this.clearBtnClickListener();
     }
   },
 };
