@@ -65,15 +65,12 @@ export default {
       else
         status = C.TASK_STATUS.REGISTERED;
 
-      axios.post(API.PATCH.TASK_STATUS,{
+      axios.patch(API.PATCH.TASK_STATUS,{
         id : this.task.id,
         status
       }).then(()=>{
          this.$emit("refresh");
-      }).finally(
-
-      )
-      //
+      })
       // await updateTaskStatus(this.task.id, status);
       // await this.$emit("refresh");
       // ->await가 동작하지 않는것인지 62-67번 라인에서의 동작과 달리 값이 변경되기전

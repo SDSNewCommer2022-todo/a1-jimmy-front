@@ -67,7 +67,7 @@ export default {
     },
     getTasksByName(){
       let name = this.$store.state.userName;
-      axios.post(API.GET.TASK,{
+      axios.get(API.GET.TASK + name,{
         name : name
       }).then((res)=>{
         this.tasks = res.data;
