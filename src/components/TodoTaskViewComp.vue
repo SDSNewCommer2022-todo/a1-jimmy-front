@@ -43,8 +43,12 @@ v-if="isEditing"
         </div>
         <div class="task-comp__right__remove">
           <img
-            :src="IC_BTN_REMOVE"
-            class="task-comp__right__remove__img"/>
+            :src="isDelBtnHover ? IC_BTN_REMOVE_HOVER : IC_BTN_REMOVE"
+            class="task-comp__right__remove__img"
+            @mouseover="isDelBtnHover=true"
+            @mouseleave="isDelBtnHover=false"
+            @click="deleteTaskRequest"
+          />
         </div>
       </div>
     </div>
@@ -91,6 +95,7 @@ export default {
       TASK_STATUS_COMPLETED  : C.TASK_STATUS.COMPLETED,
       TASK_STATUS_DELETED    : C.TASK_STATUS.DELETED,
       isEditing              : false,
+      isDelBtnHover          : false,
       edit_content           : this.task.content
     }
   },
@@ -147,6 +152,13 @@ export default {
         this.$emit("refresh");
         this.finishEditing();
       })
+    },
+    deleteTaskRequest(){
+      var url = API.DELETE.TASK + this.task.id;
+      axios.delete(url)
+        .then(()=>{
+          this.$emit("refresh");
+        })
     }
   }
 };
