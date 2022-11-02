@@ -31,7 +31,6 @@ import IC_BTN_REMOVE from '@/assets/ic_btn_remove.png'
 import IC_BTN_REMOVE_HOVER from '@/assets/ic_btn_remove_hov.png'
 import axios from 'axios';
 import API from '@/const/ApiConst';
-import { updateTaskStatus } from '@/requests/TodoTaskViewCompReq';
 
 // axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
 axios.defaults.baseURL = API.BASE_URL;
