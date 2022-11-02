@@ -32,6 +32,9 @@ import IC_BTN_REMOVE_HOVER from '@/assets/ic_btn_remove_hov.png'
 import axios from 'axios';
 import API from '@/const/ApiConst';
 
+// axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
+axios.defaults.baseURL = API.BASE_URL;
+
 export default {
   name  : 'TodoTaskViewComp',
   props : {
@@ -62,7 +65,7 @@ export default {
       else
         status = C.TASK_STATUS.REGISTERED;
 
-      axios.patch(API.POST.TASK_STATUS,{
+      axios.post(API.PATCH.TASK_STATUS,{
         id : this.task.id,
         status
       }).then(()=>{

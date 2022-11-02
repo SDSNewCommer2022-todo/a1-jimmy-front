@@ -69,9 +69,7 @@ export default {
 .task-view {
   display: inline-block;
   margin-top: 40px;
-  height: calc(100% - 351px);
-  //width: 100%;
-  //min-height: 50%;
+  min-height: calc(100% - 356px);
   background-color: #F2F2F2;
   display: flex;
   flex-direction: column;

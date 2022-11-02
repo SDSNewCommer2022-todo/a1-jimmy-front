@@ -30,6 +30,9 @@ import TodoInput from '@/components/TodoInput';
 import TodoTaskView from '@/components/TodoTaskView';
 import axios from 'axios';
 
+// axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
+axios.defaults.baseURL = API.BASE_URL;
+
 
 export default {
   components : {
@@ -64,8 +67,7 @@ export default {
     },
     getTasksByName(){
       let name = this.$store.state.userName;
-
-      axios.post(API.POST.GET_TASK,{
+      axios.post(API.GET.TASK,{
         name : name
       }).then((res)=>{
         this.tasks = res.data;
@@ -75,8 +77,8 @@ export default {
     },
     newTaskSaveRequest(input_text){
       let owner = this.$store.state.userName;
-      axios.post(API.POST.TASK_SAVE,{
-        owner   : owner,
+      axios.post(API.POST.TASK,{
+        owner,
         content : input_text
       }).then(()=>{
         this.getTasksByName();
@@ -123,8 +125,6 @@ export default {
       }
     }
   }
-
-
   .display-none {
     display: none;
   }

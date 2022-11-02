@@ -1,12 +1,14 @@
 const url = 'http://localhost:8080'
 
-export default {
-  GET  : {
-
+module.exports = {
+  BASE_URL : url,
+  GET      : {
+    TASK : '/task/get-all-task',
   },
   POST : {
-    TASK_STATUS : url + '/task/status',
-    GET_TASK    : url + '/task/get-all-task',
-    TASK_SAVE   : url + '/task/save'
+    TASK : '/task/save'
+  },
+  PATCH : {
+    TASK_STATUS : '/task/status',
   }
 }
