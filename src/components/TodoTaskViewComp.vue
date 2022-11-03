@@ -10,7 +10,7 @@ v-if="isEditing"
         ref="edit_textbox"
         :class='edit_content ? "task-comp__edit__inputbox" : "task-comp__edit__inputbox--empty"'
         :value="edit_content"
-        placeholder="Enter your task"
+        placeholder="enter your task"
         @input="editInputChange"
         @keyup.enter="sendBtnClickListener"
       />
@@ -20,8 +20,7 @@ v-if="isEditing"
         @click="sendBtnClickListener"
       >
     </div>
-
-      <div v-if="!isEditing" class="task-comp">
+    <div v-if="!isEditing" class="task-comp">
       <img
         :class='task.status === TASK_STATUS_REGISTERED ? "task-comp__checkbox": "task-comp__checkbox-checked"'
         :src='task.status === TASK_STATUS_REGISTERED ? IC_CHECKBOX : IC_CHECKBOX_CHECKED'
@@ -187,6 +186,7 @@ export default {
       border-radius: 4px;
       padding-left: 16px;
 
+
       &--empty {
         outline: none;
         display: inline-block;
@@ -195,6 +195,7 @@ export default {
         border: 1px solid #CCCCCC;
         border-radius: 4px;
         padding-left: 16px;
+
       }
     }
 
