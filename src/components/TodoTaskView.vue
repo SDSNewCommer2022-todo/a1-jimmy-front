@@ -38,8 +38,7 @@ import IC_TASK_CLEAR_BTN from '@/assets/ic_task_clear_btn.png';
 import IC_TASK_CLEAR_BTN_HOVER from '@/assets/ic_task_clear_btn_hover.png';
 import TodoDropDown from '@/components/TodoDropDown';
 import TodoTaskViewComp from '@/components/TodoTaskViewComp';
-import API from '@/const/ApiConst';
-import axios from 'axios';
+import { deleteAllTaskByOwnerRequest } from '@/requests/TodoRequest';
 
 export default {
   name       : 'TodoTaskView',
@@ -70,11 +69,11 @@ export default {
   methods : {
     deleteAllTaskRequest(){
       let name = this.$store.state.userName;
-      let url = API.DELETE.TASK_ALL + name
-      axios.delete(url)
+      deleteAllTaskByOwnerRequest(name)
         .then(()=>{
           this.$emit("refresh");
         })
+
     },
     sortTasksOrderByDate(order){
       if(order === "Oldest") {

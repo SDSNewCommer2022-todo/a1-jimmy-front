@@ -28,11 +28,9 @@ import API from "@/const/ApiConst"
 import TodoTop from '@/components/TodoTop.vue';
 import TodoInput from '@/components/TodoInput';
 import TodoTaskView from '@/components/TodoTaskView';
-import axios from 'axios';
+import { addTaskRequest, getAllTasksByNameRequest } from '@/requests/TodoRequest';
 
 // axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
-axios.defaults.baseURL = API.BASE_URL;
-
 
 export default {
   components : {
@@ -67,22 +65,20 @@ export default {
     },
     getTasksByName(){
       let name = this.$store.state.userName;
-      axios.get(API.GET.TASK + name,{
-        name : name
-      }).then((res)=>{
-        this.tasks = res.data;
-        this.total_task_count = res.data.filter((el) => el.status != "DELETED").length
-        this.registered_task_count = res.data.filter((el) => el.status == "REGISTERED").length
-      })
+      getAllTasksByNameRequest(name)
+        .then((res)=>{
+          this.tasks = res.data;
+          this.total_task_count = res.data.filter((el) => el.status != "DELETED").length
+          this.registered_task_count = res.data.filter((el) => el.status == "REGISTERED").length
+        })
     },
     newTaskSaveRequest(input_text){
       let owner = this.$store.state.userName;
-      axios.post(API.POST.TASK,{
-        owner,
-        content : input_text
-      }).then(()=>{
-        this.getTasksByName();
-      })
+      addTaskRequest(owner, input_text)
+        .then(()=>{
+          this.getTasksByName();
+        })
+
     },
   }
 };

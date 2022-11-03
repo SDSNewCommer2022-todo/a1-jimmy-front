@@ -58,8 +58,6 @@ v-if="isEditing"
 
 <script>
 import C from '@/const/TodoTaskViewCompConst'
-import axios from 'axios';
-import API from '@/const/ApiConst';
 import vClickOutside from 'v-click-outside'
 import IC_CHECKBOX from '@/assets/ic_checkbox_nor.svg'
 import IC_CHECKBOX_CHECKED from '@/assets/ic_checkbox_hov.svg'
@@ -67,9 +65,12 @@ import IC_BTN_REMOVE from '@/assets/ic_btn_remove.png'
 import IC_BTN_REMOVE_HOVER from '@/assets/ic_btn_remove_hov.png'
 import IC_VECTOR_BLUE from '@/assets/ic_vector_blue.png'
 import IC_VECTOR_GREY from '@/assets/ic_vector_grey.png'
+import {
+  deleteTaskByIdRequest,
+  updateTaskContentRequest,
+  updateTaskStatusRequest
+} from '@/requests/TodoRequest';
 
-// axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
-axios.defaults.baseURL = API.BASE_URL;
 
 export default {
   name       : 'TodoTaskViewComp',
@@ -111,16 +112,9 @@ export default {
       else
         status = C.TASK_STATUS.REGISTERED;
 
-      axios.patch(API.PATCH.TASK_STATUS,{
-        id : this.task.id,
-        status
-      }).then(()=>{
-         this.$emit("refresh");
-      })
-      // await updateTaskStatus(this.task.id, status);
-      // await this.$emit("refresh");
-      // ->await가 동작하지 않는것인지 62-67번 라인에서의 동작과 달리 값이 변경되기전
-      //  refresh 이벤트가 발생해버립니다.
+      updateTaskStatusRequest(this.task.id, status)
+        .then(()=>{ this.$emit("refresh");});
+
     },
     finishEditing(){
       this.isEditing = false;
@@ -145,20 +139,20 @@ export default {
         this.updateContentRequest(edit_content);
     },
     updateContentRequest(content){
-      axios.patch(API.PATCH.TASK_CONTENT,{
-        id      : this.task.id,
-        content : content
-      }).then(()=>{
-        this.$emit("refresh");
-        this.finishEditing();
-      })
+      updateTaskContentRequest(this.task.id, content)
+        .then(()=>{
+          this.$emit("refresh");
+          this.finishEditing();
+        })
+
     },
     deleteTaskRequest(){
-      var url = API.DELETE.TASK + this.task.id;
-      axios.delete(url)
+      deleteTaskByIdRequest(this.task.id)
         .then(()=>{
           this.$emit("refresh");
         })
+
+
     }
   }
 };
