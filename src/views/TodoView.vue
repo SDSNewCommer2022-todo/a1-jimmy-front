@@ -24,7 +24,6 @@
 
 <script>
 import C from "../const/TodoTaskViewConst"
-import API from "@/const/ApiConst"
 import TodoTop from '@/components/TodoTop.vue';
 import TodoInput from '@/components/TodoInput';
 import TodoTaskView from '@/components/TodoTaskView';
