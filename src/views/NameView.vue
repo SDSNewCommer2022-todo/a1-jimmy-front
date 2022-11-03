@@ -37,8 +37,6 @@ export default {
   .todo-content{
     margin-top: 60px;
     margin-left: 120px;
-    font-family: 'Roboto';
-    font-style: normal;
     font-weight: 400;
 
     line-height: 42px;

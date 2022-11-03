@@ -1,14 +1,8 @@
-<script setup>
-const WEEKDAY = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-var date = new Date();
-var today_str = date.getMonth() + 1 + "/" + date.getDate() +' ' + WEEKDAY[date.getDay()];;
-</script>
-
 <template>
   <div class="topbar">
     <img class="topbar__logo" :src="TOPBAR_LOGO_IMAGE">
     <span class="topbar__title">Jimmy-ToDo</span>
-    <span class="topbar__date">{{ today_str }}</span>
+    <span class="topbar__date">{{ WEEKDAY }}</span>
   </div>
 </template>
 
@@ -20,7 +14,16 @@ export default {
   name : 'TodoTop',
   data(){
     return {
-      TOPBAR_LOGO_IMAGE : IC_TOPBAR_MENU
+      TOPBAR_LOGO_IMAGE : IC_TOPBAR_MENU,
+      WEEKDAY           : this.getWeekDay()
+    }
+  },
+  methods : {
+    getWeekDay() {
+      const WEEKDAY = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+      var date = new Date();
+      var weekday = date.getMonth() + 1 + "/" + date.getDate() +' ' + WEEKDAY[date.getDay()];;
+      return weekday;
     }
   }
 }
@@ -32,7 +35,6 @@ export default {
   width: 100vw;
   height: 48px;
   background-color: #6C77A7;
-  font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
@@ -55,9 +57,7 @@ export default {
     color: #FFFFFF;
     margin-left: 13px;
     top: -3px;
-
   }
-
 
   &__date{
     height: 20px;

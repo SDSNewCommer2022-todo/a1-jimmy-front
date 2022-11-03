@@ -69,8 +69,6 @@ export default {
 
 <style scoped lang="scss">
 .todo-dropdown {
-  font-family: 'Roboto';
-  font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 18px;

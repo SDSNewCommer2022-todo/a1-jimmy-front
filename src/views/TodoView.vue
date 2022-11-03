@@ -90,8 +90,6 @@ export default {
 
 <style scoped lang="scss">
 .todo {
-  font-family: 'Roboto';
-  font-style: normal;
   height: 100%;
   width: 100%;
   &__upper {
