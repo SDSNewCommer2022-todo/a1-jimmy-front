@@ -286,7 +286,6 @@ export default {
       }
     }
   }
-
   .cursor-pointer {
     cursor: pointer;
   }

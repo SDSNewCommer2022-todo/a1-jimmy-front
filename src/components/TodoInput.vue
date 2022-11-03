@@ -1,6 +1,3 @@
-<script setup>
-</script>
-
 <template>
   <div class="todo-input" >
     <input
@@ -38,7 +35,6 @@
       >
     </button>
   </div>
-
 </template>
 
 <script>
@@ -127,7 +123,6 @@ export default {
     }
   },
 };
-
 </script>
 
 <style scoped lang="scss">
@@ -170,7 +165,6 @@ export default {
       }
     }
   }
-
   .border-bottom{
     border: 0px;
     border-bottom: 1px solid #CCCCCC;

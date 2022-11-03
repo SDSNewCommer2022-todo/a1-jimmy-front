@@ -1,7 +1,6 @@
 import axios from 'axios';
 import API from '@/const/ApiConst';
 
-
 function updateTaskStatus(id, status){
   axios.patch(API.PATCH.TASK_STATUS,{
     id,
