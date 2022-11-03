@@ -116,7 +116,7 @@ export default {
       }
       &__box:hover {
         background-color: #2a82f010;
-        color: #2a82f0;
+        //color: #2a82f0;
       }
     }
   }
