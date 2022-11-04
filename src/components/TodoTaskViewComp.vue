@@ -1,23 +1,23 @@
 <template>
   <div>
     <div
-          v-if="isEditing"
-         v-click-outside="sendBtnClickListener"
-         class="task-comp__edit"
+      v-if="isEditing"
+      v-click-outside="sendBtnClickListener"
+      class="task-comp__edit"
     >
       <input
         id="edit_textbox"
         ref="edit_textbox"
         autofocus
-        :class='edit_content ? "task-comp__edit--inputbox" : "task-comp__edit--inputbox--empty"'
-        :value="edit_content"
+        :class='task.content ? "task-comp__edit--inputbox" : "task-comp__edit--inputbox--empty"'
+        :value="task.content"
         placeholder="enter your task"
         @input="editInputChange"
         @keyup.enter="sendBtnClickListener"
       />
       <img
-        :class='edit_content ? "task-comp__edit__sendbtn" : "task-comp__edit__sendbtn-empty"'
-        :src="edit_content ? IC_VECTOR_BLUE : IC_VECTOR_GREY"
+        :class='task.content ? "task-comp__edit__sendbtn" : "task-comp__edit__sendbtn-empty"'
+        :src="task.content ? IC_VECTOR_BLUE : IC_VECTOR_GREY"
         @click="sendBtnClickListener"
       >
     </div>
@@ -128,17 +128,11 @@ export default {
     },
     editInputChange(){
       const textbox = this.$refs.edit_textbox;
-      this.edit_content = textbox.value;
+      this.task.content = textbox.value;
     },
     sendBtnClickListener() {
-      var edit_content = this.$refs.edit_textbox.value;
-      this.edit_content = edit_content;
-      if(edit_content.length === 0)
-        return;
-      else if(edit_content === this.task.content)
-        this.finishEditing();
-      else
-        this.updateContentRequest(edit_content);
+      if(this.task.content.length !== 0)
+        this.updateContentRequest(this.task.content);
     },
     updateContentRequest(content){
       updateTaskContentRequest(this.task.id, content)
