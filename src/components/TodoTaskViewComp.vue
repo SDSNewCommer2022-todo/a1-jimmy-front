@@ -9,15 +9,15 @@
         id="edit_textbox"
         ref="edit_textbox"
         autofocus
-        :class='task.content ? "task-comp__edit--inputbox" : "task-comp__edit--inputbox--empty"'
-        :value="task.content"
+        :class='edit_content ? "task-comp__edit--inputbox" : "task-comp__edit--inputbox--empty"'
+        :value="edit_content"
         placeholder="enter your task"
         @input="editInputChange"
         @keyup.enter="sendBtnClickListener"
       />
       <img
-        :class='task.content ? "task-comp__edit__sendbtn" : "task-comp__edit__sendbtn-empty"'
-        :src="task.content ? IC_VECTOR_BLUE : IC_VECTOR_GREY"
+        :class='edit_content ? "task-comp__edit__sendbtn" : "task-comp__edit__sendbtn-empty"'
+        :src="edit_content ? IC_VECTOR_BLUE : IC_VECTOR_GREY"
         @click="sendBtnClickListener"
       >
     </div>
@@ -99,6 +99,11 @@ export default {
       edit_content           : this.task.content
     }
   },
+  watch : {
+    task() {
+      this.edit_content = this.task.content;
+    }
+  },
   methods : {
     toDate(datetime){
       var date = new Date(datetime);
@@ -128,11 +133,11 @@ export default {
     },
     editInputChange(){
       const textbox = this.$refs.edit_textbox;
-      this.task.content = textbox.value;
+      this.edit_content = textbox.value;
     },
     sendBtnClickListener() {
-      if(this.task.content.length !== 0)
-        this.updateContentRequest(this.task.content);
+      if(this.edit_content.length !== 0)
+        this.updateContentRequest(this.edit_content);
     },
     updateContentRequest(content){
       updateTaskContentRequest(this.task.id, content)
