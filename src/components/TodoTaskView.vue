@@ -8,7 +8,7 @@
         <div class="task-view__top_dropdown">
           <todo-drop-down
             :dropdown-contents="dropbox_contents"
-            @dropDownChangeContent="sortTasksOrderByDate"
+            @dropDownChangeContent="dropDownChangeContentListener"
           />
         </div>
         <div class="task-view__top__clear">
@@ -26,7 +26,7 @@
           v-for="(task, index) in tasks"
           :key="index"
           :task="task"
-          @refresh="$emit('refresh')"
+          @refresh="refreshEventListener"
         />
       </div>
     </div>
@@ -34,11 +34,12 @@
 </template>
 
 <script>
+import C from '@/const/TodoConst'
 import IC_TASK_CLEAR_BTN from '@/assets/ic_task_clear_btn.png';
 import IC_TASK_CLEAR_BTN_HOVER from '@/assets/ic_task_clear_btn_hover.png';
 import TodoDropDown from '@/components/TodoDropDown';
 import TodoTaskViewComp from '@/components/TodoTaskViewComp';
-import { deleteAllTaskByOwnerRequest } from '@/requests/TodoRequest';
+import { updateAllTaskStatusRequestByOwner } from '@/requests/TodoRequest';
 
 export default {
   name       : 'TodoTaskView',
@@ -52,6 +53,9 @@ export default {
     },
     total_task_count : {
       state : false
+    },
+    task_order : {
+      state : false
     }
   },
   data() {
@@ -63,32 +67,21 @@ export default {
       IC_TASK_CLEAR_BTN_HOVER,
     }
   },
-  mounted() {
-    this.sortTasksOrderByDate("Oldest");
-  },
   methods : {
+    refreshEventListener() {
+      this.$emit("refresh")
+    },
     deleteAllTaskRequest(){
       let name = this.$store.state.userName;
-      deleteAllTaskByOwnerRequest(name)
+      updateAllTaskStatusRequestByOwner(name, C.TASK_STATUS.DELETED)
         .then(()=>{
           this.$emit("refresh");
         })
 
     },
-    sortTasksOrderByDate(order){
-      if(order === "Oldest") {
-        // eslint-disable-next-line vue/no-mutating-props
-        this.tasks.sort((t1, t2) => {
-          return new Date(t1.created_time) - new Date(t2.created_time)
-        });
-      }
-      else{
-        // eslint-disable-next-line vue/no-mutating-props
-        this.tasks.sort((t1, t2) => {
-          return new Date(t2.created_time) - new Date(t1.created_time)
-        });
-      }
-    }
+    dropDownChangeContentListener(order){
+      this.$emit("dropDownChange", order);
+    },
   }
 };
 </script>
@@ -129,6 +122,7 @@ export default {
       height: 60px;
     }
     &__clear {
+      cursor: pointer;
       display: inline-block;
       float: right;
     }

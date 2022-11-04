@@ -9,11 +9,8 @@ module.exports = {
     TASK : '/task/'
   },
   PATCH : {
-    TASK_STATUS  : '/task/status',
-    TASK_CONTENT : '/task/content'
+    TASK_STATUS     : '/task/status',
+    TASK_STATUS_ALL : '/task/status/all',
+    TASK_CONTENT    : '/task/content',
   },
-  DELETE : {
-    TASK     : '/task/',
-    TASK_ALL : '/task/all/'
-  }
 }

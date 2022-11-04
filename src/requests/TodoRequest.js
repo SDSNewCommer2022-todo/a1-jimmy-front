@@ -27,6 +27,15 @@ async function updateTaskStatusRequest(id, status){
   return axios.patch(url, data);
 }
 
+async function updateAllTaskStatusRequestByOwner(owner, status){
+  let url = API.PATCH.TASK_STATUS_ALL;
+  let data = {
+    owner,
+    status
+  }
+  return axios.patch(url, data);
+}
+
 async function updateTaskContentRequest(id, content){
   let url = API.PATCH.TASK_CONTENT;
   let data = {
@@ -36,21 +45,10 @@ async function updateTaskContentRequest(id, content){
   return axios.patch(url, data);
 }
 
-async function deleteTaskByIdRequest(id){
-  var url = API.DELETE.TASK + id;
-  return axios.delete(url);
-}
-
-async function deleteAllTaskByOwnerRequest(owner){
-  var url = API.DELETE.TASK_ALL + owner;
-  return axios.delete(url);
-}
-
 export{
   addTaskRequest,
   updateTaskStatusRequest,
+  updateAllTaskStatusRequestByOwner,
   updateTaskContentRequest,
-  deleteTaskByIdRequest,
-  deleteAllTaskByOwnerRequest,
   getAllTasksByNameRequest
 }

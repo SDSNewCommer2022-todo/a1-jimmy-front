@@ -1,14 +1,15 @@
 <template>
   <div>
     <div
-v-if="isEditing"
+          v-if="isEditing"
          v-click-outside="sendBtnClickListener"
          class="task-comp__edit"
     >
       <input
         id="edit_textbox"
         ref="edit_textbox"
-        :class='edit_content ? "task-comp__edit__inputbox" : "task-comp__edit__inputbox--empty"'
+        autofocus
+        :class='edit_content ? "task-comp__edit--inputbox" : "task-comp__edit--inputbox--empty"'
         :value="edit_content"
         placeholder="enter your task"
         @input="editInputChange"
@@ -56,7 +57,7 @@ v-if="isEditing"
 </template>
 
 <script>
-import C from '@/const/TodoTaskViewCompConst'
+import C from '@/const/TodoConst'
 import vClickOutside from 'v-click-outside'
 import IC_CHECKBOX from '@/assets/ic_checkbox_nor.svg'
 import IC_CHECKBOX_CHECKED from '@/assets/ic_checkbox_hov.svg'
@@ -65,7 +66,6 @@ import IC_BTN_REMOVE_HOVER from '@/assets/ic_btn_remove_hov.png'
 import IC_VECTOR_BLUE from '@/assets/ic_vector_blue.png'
 import IC_VECTOR_GREY from '@/assets/ic_vector_grey.png'
 import {
-  deleteTaskByIdRequest,
   updateTaskContentRequest,
   updateTaskStatusRequest
 } from '@/requests/TodoRequest';
@@ -122,6 +122,9 @@ export default {
       if(this.task.status === C.TASK_STATUS.COMPLETED)
         return;
       this.isEditing = !this.isEditing;
+      setTimeout(() => {
+        this.$refs.edit_textbox.focus();
+      })
     },
     editInputChange(){
       const textbox = this.$refs.edit_textbox;
@@ -146,12 +149,10 @@ export default {
 
     },
     deleteTaskRequest(){
-      deleteTaskByIdRequest(this.task.id)
-        .then(()=>{
+      updateTaskStatusRequest(this.task.id, C.TASK_STATUS.DELETED)
+        .then(() => {
           this.$emit("refresh");
         })
-
-
     }
   }
 };
@@ -176,7 +177,7 @@ export default {
     height: 60px;
     width: 100%;
     line-height: 60px;
-    &__inputbox {
+    &--inputbox {
       outline: none;
       display: inline-block;
       height: 58px;
