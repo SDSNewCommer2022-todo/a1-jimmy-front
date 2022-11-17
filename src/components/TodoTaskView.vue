@@ -12,6 +12,7 @@
           <img
             :src="is_clear_btn_hover ? IC_TASK_CLEAR_BTN_HOVER : IC_TASK_CLEAR_BTN"
             class="task-view__top__clear__img"
+            @click="deleteAllTaskRequest"
             @mouseover="is_clear_btn_hover = true"
             @mouseleave="is_clear_btn_hover = false"
           />
@@ -34,6 +35,8 @@ import IC_TASK_CLEAR_BTN from '@/assets/ic_task_clear_btn.png';
 import IC_TASK_CLEAR_BTN_HOVER from '@/assets/ic_task_clear_btn_hover.png';
 import TodoDropDown from '@/components/TodoDropDown';
 import TodoTaskViewComp from '@/components/TodoTaskViewComp';
+import API from '@/const/ApiConst';
+import axios from 'axios';
 
 export default {
   name       : 'TodoTaskView',
@@ -55,12 +58,19 @@ export default {
       no_task_description     : 'There is no task.',
       dropbox_contents        : ['Oldest', 'Latest'],
       is_clear_btn_hover      : false,
-      IC_TASK_CLEAR_BTN       : IC_TASK_CLEAR_BTN,
-      IC_TASK_CLEAR_BTN_HOVER : IC_TASK_CLEAR_BTN_HOVER,
+      IC_TASK_CLEAR_BTN,
+      IC_TASK_CLEAR_BTN_HOVER,
     }
   },
   methods : {
-
+    deleteAllTaskRequest(){
+      let name = this.$store.state.userName;
+      let url = API.DELETE.TASK_ALL + name
+      axios.delete(url)
+        .then(()=>{
+          this.$emit("refresh");
+        })
+    }
   }
 };
 </script>
