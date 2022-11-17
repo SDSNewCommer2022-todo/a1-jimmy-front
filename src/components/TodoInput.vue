@@ -1,6 +1,3 @@
-<script setup>
-</script>
-
 <template>
   <div class="todo-input" >
     <input
@@ -10,13 +7,15 @@
       :value="input_text"
       :placeholder="isNamePage ? PH_NAME : PH_TASK"
       :class="[isNamePage ? 'todo-input__textbox' : 'todo-input__textbox-long',
-         isNamePage ? 'border-bottom' : 'border-all']"
+               isFocus    ? 'todo-input--focus' : 'todo-input--normal',
+               input_text ? '' : 'todo-input--normal']"
       @input="inputChangeListener"
-      @focus="inputFocusListener"
-      @focusout="inputFocusOutListener"
+      @focus="isFocus = true"
+      @focusout="isFocus = false"
       @keyup.enter="sendBtnClickListener"
     >
     <button
+      v-if="input_text"
       ref="inputClearButton"
       class="todo-input__clear"
       @click="clearBtnClickListener">
@@ -30,6 +29,7 @@
       ref="sendButton"
       type="button"
       class="todo-input__send"
+      :class="input_text ? 'todo-input__send--active' : 'todo-input__send--inactive'"
       @click="sendBtnClickListener">
       <img
         ref="sendButtonImage"
@@ -38,7 +38,6 @@
       >
     </button>
   </div>
-
 </template>
 
 <script>
@@ -60,6 +59,7 @@ export default {
   data(){
     return {
       input_text          : this.value,
+      isFocus             : false,
       PH_NAME             : C.PLACEHOLDER.NAME_PAGE,
       PH_TASK             : C.PLACEHOLDER.TASK_PAGE,
       DELETE_BUTTON_IMAGE : IC_DELETE,
@@ -68,55 +68,13 @@ export default {
     }
   },
   methods : {
-    inputBoxNormalState() {
-      this.$refs.sendButtonImage.src = IC_VECTOR_GREY;
-      this.$refs.sendButton.style.cursor = "";
-      if(this.isNamePage)
-        this.$refs.textbox.style.borderBottomColor = C.INPUTBOX_COLOR.DEFAULT;
-      else
-        this.$refs.textbox.style.borderColor = C.INPUTBOX_COLOR.DEFAULT;
-    },
-    inputBoxFocusState() {
-      this.$refs.inputClearButton.style.display = "none";
-      this.$refs.sendButtonImage.src = IC_VECTOR_GREY;
-      if(this.isNamePage)
-        this.$refs.textbox.style.borderBottomColor = C.INPUTBOX_COLOR.ONFOCUS
-      else
-        this.$refs.textbox.style.borderColor = C.INPUTBOX_COLOR.ONFOCUS
-    },
-    inputBoxTextingState(){
-      this.$refs.sendButton.style.cursor = "pointer";
-      this.$refs.inputClearButton.style.display = "inline-block";
-      this.$refs.sendButtonImage.src = IC_VECTOR_BLUE
-      if(this.isNamePage)
-        this.$refs.textbox.style.borderBottomColor = C.INPUTBOX_COLOR.ONFOCUS
-      else
-        this.$refs.textbox.style.borderColor = C.INPUTBOX_COLOR.ONFOCUS
-    },
-    inputFocusListener() {
-      if(this.input_text.length > 0){
-        this.inputBoxTextingState();
-      }else{
-        this.inputBoxFocusState();
-      }
-    },
-    inputFocusOutListener() {
-      this.inputBoxNormalState();
-
-    },
     inputChangeListener() {
       const text_box = this.$refs.textbox;
-      if (text_box.value.length === 0) {
-        this.inputBoxNormalState();
-      } else {
-        this.inputBoxTextingState();
-        this.input_text = text_box.value;
-      }
+      this.input_text = text_box.value;
+
     },
     clearBtnClickListener() {
-      this.inputBoxNormalState();
       this.input_text = "";
-      this.$refs.inputClearButton.style.display = "none";
     },
     sendBtnClickListener() {
       if(this.input_text.length === 0) {
@@ -127,25 +85,45 @@ export default {
     }
   },
 };
-
 </script>
 
 <style scoped lang="scss">
   .todo-input{
+    height: 60px;
     &__textbox{
       width: 54%;
       outline: none;
       font-size: 16px;
+      border: 0px;
+      border-bottom: 1px solid #CCCCCC;
+      padding-bottom: 6.5px;
     }
     &__textbox-long{
       width: 90%  ;
       outline: none;
       font-size: 16px;
+      border: 1px solid #CCCCCC;
+      border-radius: 4px;
+      gap: 8px;
+      padding: 10px;
     }
+
+    &--focus {
+      border-color: #2A82F0;
+    }
+
+    &--normal {
+      border-color: #CCCCCC;
+    }
+
+    &--texting {
+      border-color: #2A82F0;
+    }
+
     &__clear{
       cursor: pointer;
       position: absolute;
-      display: none;
+      display: inline-block;
       border: none;
       background: transparent;
       margin-top: 10px;
@@ -163,24 +141,20 @@ export default {
       border-left: 11px;
       border: none;
       background: transparent;
-
       &__image{
         width: 16px;
         height: 16px;
       }
+
+      &--active {
+        cursor: pointer;
+      }
+
+      &--inactive {
+        cursor: unset;
+      }
     }
   }
 
-  .border-bottom{
-    border: 0px;
-    border-bottom: 1px solid #CCCCCC;
-    padding-bottom: 6.5px;
-  }
-
-  .border-all {
-    border: 1px solid #CCCCCC;
-    border-radius: 4px;
-    gap: 8px;
-    padding: 10px;
-  }
 </style>
+

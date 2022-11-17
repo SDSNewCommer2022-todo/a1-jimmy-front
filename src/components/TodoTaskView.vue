@@ -6,7 +6,10 @@
     <div :class="total_task_count !== 0 ? '' : 'display-none'">
       <div class="task-view__top">
         <div class="task-view__top_dropdown">
-          <todo-drop-down :dropdown-contents="dropbox_contents" />
+          <todo-drop-down
+            :dropdown-contents="dropbox_contents"
+            @dropDownChangeContent="dropDownChangeContentListener"
+          />
         </div>
         <div class="task-view__top__clear">
           <img
@@ -23,7 +26,7 @@
           v-for="(task, index) in tasks"
           :key="index"
           :task="task"
-          @refresh='$emit("refresh")'
+          @refresh="refreshEventListener"
         />
       </div>
     </div>
@@ -31,12 +34,12 @@
 </template>
 
 <script>
+import C from '@/const/TodoConst'
 import IC_TASK_CLEAR_BTN from '@/assets/ic_task_clear_btn.png';
 import IC_TASK_CLEAR_BTN_HOVER from '@/assets/ic_task_clear_btn_hover.png';
 import TodoDropDown from '@/components/TodoDropDown';
 import TodoTaskViewComp from '@/components/TodoTaskViewComp';
-import API from '@/const/ApiConst';
-import axios from 'axios';
+import { updateAllTaskStatusRequestByOwner } from '@/requests/TodoRequest';
 
 export default {
   name       : 'TodoTaskView',
@@ -44,12 +47,14 @@ export default {
     TodoDropDown,
     TodoTaskViewComp
   },
-
   props : {
     tasks : {
       state : false
     },
     total_task_count : {
+      state : false
+    },
+    task_order : {
       state : false
     }
   },
@@ -63,14 +68,20 @@ export default {
     }
   },
   methods : {
+    refreshEventListener() {
+      this.$emit("refresh")
+    },
     deleteAllTaskRequest(){
       let name = this.$store.state.userName;
-      let url = API.DELETE.TASK_ALL + name
-      axios.delete(url)
+      updateAllTaskStatusRequestByOwner(name, C.TASK_STATUS.DELETED)
         .then(()=>{
           this.$emit("refresh");
         })
-    }
+
+    },
+    dropDownChangeContentListener(order){
+      this.$emit("dropDownChange", order);
+    },
   }
 };
 </script>
@@ -80,7 +91,7 @@ export default {
   display: inline-block;
   margin-top: 40px;
   min-height: calc(100% - 356px);
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -106,26 +117,24 @@ export default {
     margin-left: 60px;
     margin-right: 60px;
 
-    &__dropdown{
+    &__dropdown {
       display: inline-block;
       height: 60px;
     }
     &__clear {
+      cursor: pointer;
       display: inline-block;
       float: right;
     }
-
   }
 
-  &__list{
+  &__list {
     margin-top: 24px;
     margin-left: 60px;
     margin-right: 60px;
     margin-bottom: 24px;
   }
-
 }
-
 
 .display-none {
   display: none;

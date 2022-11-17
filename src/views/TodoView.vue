@@ -17,22 +17,20 @@
     <TodoTaskView
       :tasks="tasks"
       :total_task_count="total_task_count"
-      @refresh="getTasksByName"
+      :task_order="task_order"
+      @refresh="refreshEventListener"
+      @dropDownChange="dropDownChangeContentListener"
     />
   </div>
 </template>
 
 <script>
-import C from "../const/TodoTaskViewConst"
-import API from "@/const/ApiConst"
+import C from "../const/TodoConst"
+import STATUS from "@/const/TodoConst"
 import TodoTop from '@/components/TodoTop.vue';
 import TodoInput from '@/components/TodoInput';
 import TodoTaskView from '@/components/TodoTaskView';
-import axios from 'axios';
-
-// axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
-axios.defaults.baseURL = API.BASE_URL;
-
+import { addTaskRequest, getAllTasksByNameRequest } from '@/requests/TodoRequest';
 
 export default {
   components : {
@@ -47,6 +45,7 @@ export default {
       total_task_count      : 0,
       registered_task_count : 0,
       task_description      : '',
+      task_order            : "Oldest"
     }
   },
   mounted() {
@@ -65,33 +64,49 @@ export default {
       else
         this.greeting = C.GREET.NIGHT;
     },
+    refreshEventListener(){
+      this.getTasksByName();
+    },
+    dropDownChangeContentListener(order) {
+      this.task_order = order;
+      this.sortTasksOrderByDate();
+    },
     getTasksByName(){
       let name = this.$store.state.userName;
-      axios.get(API.GET.TASK + name,{
-        name : name
-      }).then((res)=>{
-        this.tasks = res.data;
-        this.total_task_count = res.data.filter((el) => el.status != "DELETED").length
-        this.registered_task_count = res.data.filter((el) => el.status == "REGISTERED").length
-      })
+      getAllTasksByNameRequest(name)
+        .then((res)=>{
+          this.tasks = res.data.filter((el)=>el.status !== STATUS.TASK_STATUS.DELETED);
+          this.total_task_count = this.tasks.length
+          this.registered_task_count = res.data.filter((el) => el.status === STATUS.TASK_STATUS.REGISTERED).length
+          this.sortTasksOrderByDate();
+        })
     },
     newTaskSaveRequest(input_text){
       let owner = this.$store.state.userName;
-      axios.post(API.POST.TASK,{
-        owner,
-        content : input_text
-      }).then(()=>{
-        this.getTasksByName();
-      })
+      addTaskRequest(owner, input_text)
+        .then(()=>{
+          this.getTasksByName();
+        })
+
     },
+    sortTasksOrderByDate(){
+      if(this.task_order === "Oldest") {
+        this.tasks.sort((t1, t2) => {
+          return new Date(t1.created_time) - new Date(t2.created_time)
+        });
+      }
+      else{
+        this.tasks.sort((t1, t2) => {
+          return new Date(t2.created_time) - new Date(t1.created_time)
+        });
+      }
+    }
   }
 };
 </script>
 
 <style scoped lang="scss">
 .todo {
-  font-family: 'Roboto';
-  font-style: normal;
   height: 100%;
   width: 100%;
   &__upper {

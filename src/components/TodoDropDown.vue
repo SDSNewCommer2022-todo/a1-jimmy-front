@@ -18,7 +18,7 @@
           v-for="(content, index) in dropdownContents"
           :key="index"
           :class="selected==content ? 'todo-dropdown__menu__contents__box-selected' : 'todo-dropdown__menu__contents__box' "
-          @click="selected = content"
+          @click="dropDownChangeContent(content)"
         >
           {{ content }}
         </div>
@@ -58,6 +58,10 @@ export default {
   methods : {
     onClickOutside(){
       this.isContentView = false;
+    },
+    dropDownChangeContent(content){
+      this.selected = content;
+      this.$emit("dropDownChangeContent",this.selected);
     }
   }
 };
@@ -65,8 +69,6 @@ export default {
 
 <style scoped lang="scss">
 .todo-dropdown {
-  font-family: 'Roboto';
-  font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 18px;
@@ -114,7 +116,7 @@ export default {
       }
       &__box:hover {
         background-color: #2a82f010;
-        color: #2a82f0;
+        //color: #2a82f0;
       }
     }
   }

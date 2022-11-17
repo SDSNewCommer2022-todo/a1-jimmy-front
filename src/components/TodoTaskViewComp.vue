@@ -1,16 +1,17 @@
 <template>
   <div>
     <div
-v-if="isEditing"
-         v-click-outside="sendBtnClickListener"
-         class="task-comp__edit"
+      v-if="isEditing"
+      v-click-outside="sendBtnClickListener"
+      class="task-comp__edit"
     >
       <input
         id="edit_textbox"
         ref="edit_textbox"
-        :class='edit_content ? "task-comp__edit__inputbox" : "task-comp__edit__inputbox--empty"'
+        autofocus
+        :class='edit_content ? "task-comp__edit--inputbox" : "task-comp__edit--inputbox--empty"'
         :value="edit_content"
-        placeholder="Enter your task"
+        placeholder="enter your task"
         @input="editInputChange"
         @keyup.enter="sendBtnClickListener"
       />
@@ -20,8 +21,7 @@ v-if="isEditing"
         @click="sendBtnClickListener"
       >
     </div>
-
-      <div v-if="!isEditing" class="task-comp">
+    <div v-if="!isEditing" class="task-comp">
       <img
         :class='task.status === TASK_STATUS_REGISTERED ? "task-comp__checkbox": "task-comp__checkbox-checked"'
         :src='task.status === TASK_STATUS_REGISTERED ? IC_CHECKBOX : IC_CHECKBOX_CHECKED'
@@ -57,9 +57,7 @@ v-if="isEditing"
 </template>
 
 <script>
-import C from '@/const/TodoTaskViewCompConst'
-import axios from 'axios';
-import API from '@/const/ApiConst';
+import C from '@/const/TodoConst'
 import vClickOutside from 'v-click-outside'
 import IC_CHECKBOX from '@/assets/ic_checkbox_nor.svg'
 import IC_CHECKBOX_CHECKED from '@/assets/ic_checkbox_hov.svg'
@@ -67,9 +65,11 @@ import IC_BTN_REMOVE from '@/assets/ic_btn_remove.png'
 import IC_BTN_REMOVE_HOVER from '@/assets/ic_btn_remove_hov.png'
 import IC_VECTOR_BLUE from '@/assets/ic_vector_blue.png'
 import IC_VECTOR_GREY from '@/assets/ic_vector_grey.png'
+import {
+  updateTaskContentRequest,
+  updateTaskStatusRequest
+} from '@/requests/TodoRequest';
 
-// axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
-axios.defaults.baseURL = API.BASE_URL;
 
 export default {
   name       : 'TodoTaskViewComp',
@@ -99,6 +99,11 @@ export default {
       edit_content           : this.task.content
     }
   },
+  watch : {
+    task() {
+      this.edit_content = this.task.content;
+    }
+  },
   methods : {
     toDate(datetime){
       var date = new Date(datetime);
@@ -111,16 +116,9 @@ export default {
       else
         status = C.TASK_STATUS.REGISTERED;
 
-      axios.patch(API.PATCH.TASK_STATUS,{
-        id : this.task.id,
-        status
-      }).then(()=>{
-         this.$emit("refresh");
-      })
-      // await updateTaskStatus(this.task.id, status);
-      // await this.$emit("refresh");
-      // ->await가 동작하지 않는것인지 62-67번 라인에서의 동작과 달리 값이 변경되기전
-      //  refresh 이벤트가 발생해버립니다.
+      updateTaskStatusRequest(this.task.id, status)
+        .then(()=>{ this.$emit("refresh");});
+
     },
     finishEditing(){
       this.isEditing = false;
@@ -129,34 +127,29 @@ export default {
       if(this.task.status === C.TASK_STATUS.COMPLETED)
         return;
       this.isEditing = !this.isEditing;
+      setTimeout(() => {
+        this.$refs.edit_textbox.focus();
+      })
     },
     editInputChange(){
       const textbox = this.$refs.edit_textbox;
       this.edit_content = textbox.value;
     },
     sendBtnClickListener() {
-      var edit_content = this.$refs.edit_textbox.value;
-      this.edit_content = edit_content;
-      if(edit_content.length === 0)
-        return;
-      else if(edit_content === this.task.content)
-        this.finishEditing();
-      else
-        this.updateContentRequest(edit_content);
+      if(this.edit_content.length !== 0)
+        this.updateContentRequest(this.edit_content);
     },
     updateContentRequest(content){
-      axios.patch(API.PATCH.TASK_CONTENT,{
-        id      : this.task.id,
-        content : content
-      }).then(()=>{
-        this.$emit("refresh");
-        this.finishEditing();
-      })
+      updateTaskContentRequest(this.task.id, content)
+        .then(()=>{
+          this.$emit("refresh");
+          this.finishEditing();
+        })
+
     },
     deleteTaskRequest(){
-      var url = API.DELETE.TASK + this.task.id;
-      axios.delete(url)
-        .then(()=>{
+      updateTaskStatusRequest(this.task.id, C.TASK_STATUS.DELETED)
+        .then(() => {
           this.$emit("refresh");
         })
     }
@@ -183,7 +176,7 @@ export default {
     height: 60px;
     width: 100%;
     line-height: 60px;
-    &__inputbox {
+    &--inputbox {
       outline: none;
       display: inline-block;
       height: 58px;
@@ -193,6 +186,7 @@ export default {
       border-radius: 4px;
       padding-left: 16px;
 
+
       &--empty {
         outline: none;
         display: inline-block;
@@ -201,6 +195,7 @@ export default {
         border: 1px solid #CCCCCC;
         border-radius: 4px;
         padding-left: 16px;
+
       }
     }
 
@@ -286,7 +281,6 @@ export default {
       }
     }
   }
-
   .cursor-pointer {
     cursor: pointer;
   }
