@@ -11,5 +11,8 @@ module.exports = {
   PATCH : {
     TASK_STATUS  : '/task/status',
     TASK_CONTENT : '/task/content'
+  },
+  DELETE : {
+    TASK : '/task/'
   }
 }
